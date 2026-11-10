@@ -1,4 +1,5 @@
-
+from scipy import sparse
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -48,7 +49,16 @@ from sklearn.svm import OneClassSVM
 # Dimensionality reduction
 from sklearn.decomposition import PCA, TruncatedSVD
 from sklearn.manifold import TSNE
+class DenseTransformer(BaseEstimator, TransformerMixin):
+    """Convert sparse matrices into dense arrays when required."""
 
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        if sparse.issparse(X):
+            return X.toarray()
+        return X
 
 def get_model_registry():
     """
@@ -92,8 +102,9 @@ def get_model_registry():
                 random_state=42
             ),
 
-            "Hist Gradient Boosting": lambda: HistGradientBoostingRegressor(
-                random_state=42
+           "Hist Gradient Boosting": lambda: make_pipeline(
+                DenseTransformer(),
+                HistGradientBoostingRegressor(random_state=42)
             ),
 
             "Support Vector Regression": lambda: SVR(),
@@ -124,8 +135,9 @@ def get_model_registry():
                 random_state=42
             ),
 
-            "Hist Gradient Boosting": lambda: HistGradientBoostingClassifier(
-                random_state=42
+           "Hist Gradient Boosting": lambda: make_pipeline(
+                DenseTransformer(),
+                HistGradientBoostingClassifier(random_state=42)
             ),
 
             "Support Vector Machine": lambda: SVC(
@@ -135,7 +147,10 @@ def get_model_registry():
 
             "K Nearest Neighbors": lambda: KNeighborsClassifier(),
 
-            "Gaussian Naive Bayes": lambda: GaussianNB()
+            "Gaussian Naive Bayes": lambda: make_pipeline(
+                DenseTransformer(),
+                GaussianNB()
+            )
         },
 
         "Clustering": {
