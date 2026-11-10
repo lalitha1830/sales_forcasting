@@ -168,7 +168,7 @@ if "training_result" in st.session_state:
         ]
 
         default_metric = (
-            "RMSE" if task == "Regression" else "F1"
+            "RMSE" if result["task"] == "Regression" else "F1 Score"
         )
 
         if default_metric not in metric_options:
@@ -199,7 +199,7 @@ if "training_result" in st.session_state:
 
     st.write(
         "Target column:",
-        result["target"]
+        result["target_column"]
     )
 
     st.info(
