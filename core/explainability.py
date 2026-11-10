@@ -51,7 +51,11 @@ def explain_model(
         )
 
         importance_df = pd.DataFrame({
-            "Feature": X_test.columns,
+            "Feature": (
+                    X_test.columns
+                    if hasattr(X_test, "columns")
+                    else [f"Feature_{i}" for i in range(X_test.shape[1])]
+        ),
             "Importance": result.importances_mean,
             "Importance_Std": result.importances_std
         })
