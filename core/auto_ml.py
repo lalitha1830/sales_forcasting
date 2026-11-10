@@ -263,6 +263,6 @@ def train_automl(
         "failures": failures,
         "task": task,
         "target_column": target_column,
-        "training_rows": len(X_train),
-        "testing_rows": len(X_test)
+        "train_rows": len(X_train),
+        "test_rows": len(X_test)
     }
