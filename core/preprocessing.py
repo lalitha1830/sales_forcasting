@@ -24,7 +24,10 @@ def extract_datetime_features(df):
 
         name = str(column).lower()
 
-        if any(word in name for word in DATE_KEYWORDS):
+        if (
+            any(word in name for word in DATE_KEYWORDS)
+            or pd.api.types.is_datetime64_any_dtype(df[column])
+        ):
 
             # Do not reinterpret already numeric columns
             # such as year or month.
