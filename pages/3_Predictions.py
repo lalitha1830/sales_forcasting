@@ -30,7 +30,7 @@ if "training_result" not in st.session_state:
 result = st.session_state["training_result"]
 
 best_model = result["best_model"]
-target_column = result["target"]
+target_column = result["target_column"]
 
 st.success(
     f"Active model: {result['best_model_name']}"
