@@ -50,7 +50,7 @@ PARAMETER_GRIDS = {
         "model__C": [0.1, 1.0, 10.0]
     },
 
-    "K-Nearest Neighbors": {
+    "K Nearest Neighbors": {
         "model__n_neighbors": [3, 5, 7]
     }
 }
